@@ -1,3 +1,4 @@
+# Expanding limits of the stack (Linux only)
 import sys, resource
 sys.setrecursionlimit(40000)
 resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
