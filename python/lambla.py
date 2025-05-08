@@ -18,10 +18,10 @@ write_int = lambda num: str(num(lambda x: x + 1)(0))
 print(write_int(five), " = ", write_int(plus(two, plus(one, two))))
 
 # Church boolean
-true = lambda t: lambda f: t()
-false = lambda t: lambda f: f()
+true = lambda t: lambda f: t
+false = lambda t: lambda f: f
 zerop = lambda num: num(lambda x: false)(true)
-_if = lambda cond: lambda trueBody: lambda falseBody: cond(trueBody)(falseBody)
+_if = lambda cond: lambda trueBody: lambda falseBody: cond(trueBody)(falseBody) ()
 print(_if(zerop(zero))(lambda: 'number is zero')(lambda: 'number is NON zero'))
 
 # Predecessor: λn.λf.λx.n (λg.λh.h (g f)) (λu.x) (λu.u)
@@ -36,14 +36,14 @@ leqp = lambda a, b: zerop(minus(a, b))
 lessp = lambda a, b: leqp(succ(a), b)
 geqp = lambda a, b: zerop(minus(b, a))
 greaterp = lambda a, b: geqp(a, succ(b))
-write_bool = lambda a: str(a(lambda: True)(lambda: False))
+write_bool = lambda a: str(a(True)(False))
 print('3 <= 4 ' + write_bool(leqp(three, four)))
 print('4 <= 3 ' + write_bool(leqp(four, three)))
 print('2 >= 2 ' + write_bool(geqp(two, two)))
 print('2 > 2 ' + write_bool(greaterp(two, two)))
 
-_or = lambda a, b: lambda t: lambda f: b(t) (lambda: a(t)(f))
-_and = lambda a, b: lambda t: lambda f: b(lambda: a(t)(f)) (f)
+_or = lambda a, b: lambda t: lambda f: b(t)(a(t)(f))
+_and = lambda a, b: lambda t: lambda f: b(a(t)(f))(f)
 _not = lambda a: lambda t: lambda f: a(f)(t)
 
 equalp = lambda a, b: _and(leqp(a, b), leqp(b, a))
